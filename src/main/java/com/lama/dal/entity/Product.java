@@ -66,7 +66,6 @@ public class Product {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
-    @NotNull(message = "Product must have a Product Tag")
     private Set<Tag> tags;
 
     @NotNull(message = "Price is mandatory")

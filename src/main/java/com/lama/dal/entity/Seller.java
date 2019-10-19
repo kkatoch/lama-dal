@@ -52,7 +52,6 @@ public class Seller {
 
     private Set<Event> events;
 
-    @Indexed
     @NotNull(message = "Phone Number is mandatory")
     private String phoneNumber;
 
