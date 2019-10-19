@@ -1,6 +1,7 @@
 package com.lama.dal.controller;
 
 import com.lama.dal.entity.Buyer;
+import com.lama.dal.error.EntityNotFoundException;
 import com.lama.dal.service.BuyerService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -32,34 +33,17 @@ public class BuyerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Buyer> findById(@PathVariable String id) {
-        Optional<Buyer> buyer = buyerService.findById(id);
-        if (!buyer.isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(buyer.get());
+        return ResponseEntity.ok(buyerService.findById(id).get());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Buyer> update(@PathVariable String id, @Valid @RequestBody Buyer buyer) {
-        if (!buyerService.findById(id).isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(buyerService.save(buyer));
+        return ResponseEntity.ok(buyerService.update(id, buyer));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id) {
-        if (!buyerService.findById(id).isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
         buyerService.deleteById(id);
-
         return ResponseEntity.ok().build();
     }
 }

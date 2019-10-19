@@ -1,5 +1,6 @@
 package com.lama.dal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lama.dal.model.Image;
 import com.lama.dal.model.Tag;
 import com.lama.dal.types.ArtCategory;
@@ -10,6 +11,8 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,10 +20,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Document
+@Document("Product")
+@CompoundIndex(name = "product_seller", def = "{'name' : 1, 'seller': 1}", unique = true)
 public class Product {
     @Id
     private String id;
@@ -74,19 +79,19 @@ public class Product {
     @NotNull(message = "Is Sell is mandatory")
     private boolean isSell;
 
-    @DBRef
     @NotNull(message = "Product must have a Currency")
-    private Currency currency;
+    private String currency;
 
     @DBRef
     private Seller seller;
 
-    @NotNull(message = "Product must have Images")
     private Set<Image> images;
 
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant updatedAt;
 }

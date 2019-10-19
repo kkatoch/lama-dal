@@ -1,18 +1,21 @@
 package com.lama.dal.entity;
 
-import com.lama.dal.model.Contact;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lama.dal.model.Address;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Data
-@Document
+@Document("Buyer")
 public class Buyer {
     @Id
     private String id;
@@ -24,20 +27,27 @@ public class Buyer {
     private String lastName;
 
     @NotBlank(message = "Email is mandatory")
+    @Email
+    @Indexed(unique = true)
     private String email;
 
     private boolean isEmailVerified = false;
 
-    @NotNull(message = "Seller must have a contact")
-    private Contact contact;
+    @NotNull(message = "Buyer must have a contact")
+    private Address address;
 
-    private Contact billing;
+    private Address billing;
 
     private boolean isVerified = false;
 
+    @NotNull(message = "Phone Number is mandatory")
+    private String phoneNumber;
+
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant updatedAt;
 }

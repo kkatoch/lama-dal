@@ -1,8 +1,11 @@
 package com.lama.dal.service;
 
 import com.lama.dal.entity.Product;
+import com.lama.dal.entity.Seller;
+import com.lama.dal.error.EntityNotFoundException;
 import com.lama.dal.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +17,45 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private final ProductRepository productRepository;
+    private final SellerService sellerService;
 
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
     public Optional<Product> findById(String id) {
-        return productRepository.findById(id);
+        Optional<Product> product = productRepository.findById(id);
+        if (!product.isPresent()) {
+            throw new EntityNotFoundException(Product.class, "id", id);
+        }
+
+        return product;
+    }
+
+    public Product update(String id, Product product) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException(Product.class, "id", id);
+        }
+        return productRepository.save(product);
     }
 
     public Product save(Product product) {
-        return (Product) productRepository.save(product);
+        Seller seller = product.getSeller();
+        if(seller == null || seller.getId().isEmpty()) {
+            throw new EntityNotFoundException(Seller.class, "id", "Empty");
+
+        }
+        if (!sellerService.findById(seller.getId()).isPresent()) {
+            throw new EntityNotFoundException(Seller.class, "id", seller.getId());
+        }
+        return productRepository.save(product);
     }
 
     public void deleteById(String id) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException(Product.class, "id", id);
+        }
+
         productRepository.deleteById(id);
     }
 }

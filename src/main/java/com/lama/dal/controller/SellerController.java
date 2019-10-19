@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/sellers")
@@ -32,34 +31,17 @@ public class SellerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Seller> findById(@PathVariable String id) {
-        Optional<Seller> seller = sellerService.findById(id);
-        if (!seller.isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(seller.get());
+        return ResponseEntity.ok(sellerService.findById(id).get());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Seller> update(@PathVariable String id, @Valid @RequestBody Seller seller) {
-        if (!sellerService.findById(id).isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(sellerService.save(seller));
+        return ResponseEntity.ok(sellerService.update(id, seller));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id) {
-        if (!sellerService.findById(id).isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
         sellerService.deleteById(id);
-
         return ResponseEntity.ok().build();
     }
 }

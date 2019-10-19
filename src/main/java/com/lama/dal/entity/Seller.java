@@ -2,22 +2,24 @@ package com.lama.dal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lama.dal.model.Award;
-import com.lama.dal.model.Contact;
+import com.lama.dal.model.Address;
 import com.lama.dal.model.Event;
 import com.lama.dal.model.Image;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Set;
 
 @Data
-@Document
+@Document("Seller")
 public class Seller {
     @Id
     private String id;
@@ -28,15 +30,17 @@ public class Seller {
     @NotBlank(message = "Last Name is mandatory")
     private String lastName;
 
+    @Indexed(unique = true)
     @NotBlank(message = "Email is mandatory")
+    @Email
     private String email;
 
     private boolean isEmailVerified = false;
 
     @NotNull(message = "Seller must have a contact")
-    private Contact contact;
+    private Address address;
 
-    private Contact billing;
+    private Address billing;
 
     private boolean isVerified = false;
 
@@ -48,9 +52,17 @@ public class Seller {
 
     private Set<Event> events;
 
+    @Indexed
+    @NotNull(message = "Phone Number is mandatory")
+    private String phoneNumber;
+
+    private boolean isListed = true;
+
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant updatedAt;
 }

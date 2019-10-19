@@ -1,9 +1,12 @@
 package com.lama.dal.service;
 
 import com.lama.dal.entity.Buyer;
+import com.lama.dal.error.EntityNotFoundException;
 import com.lama.dal.repository.BuyerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +23,19 @@ public class BuyerService {
     }
 
     public Optional<Buyer> findById(String id) {
-        return buyerRepository.findById(id);
+        Optional<Buyer> buyer = buyerRepository.findById(id);
+        if (!buyer.isPresent()) {
+            throw new EntityNotFoundException(Buyer.class, "id", id);
+        }
+
+        return buyer;
+    }
+
+    public Buyer update(String id, Buyer buyer) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException(Buyer.class, "id", id);
+        }
+        return buyerRepository.save(buyer);
     }
 
     public Buyer save(Buyer buyer) {
@@ -28,6 +43,10 @@ public class BuyerService {
     }
 
     public void deleteById(String id) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException(Buyer.class, "id", id);
+        }
+
         buyerRepository.deleteById(id);
     }
 }

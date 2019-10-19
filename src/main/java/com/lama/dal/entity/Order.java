@@ -1,5 +1,6 @@
 package com.lama.dal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lama.dal.model.OrderItem;
 import com.lama.dal.types.OrderStatus;
 import lombok.Data;
@@ -13,8 +14,8 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Set;
 
-@Document
 @Data
+@Document("Order")
 public class Order {
     @Id
     private String id;
@@ -28,9 +29,11 @@ public class Order {
     @NotNull(message = "Order must have items")
     private Set<OrderItem> orderItems;
 
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant updatedAt;
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -32,34 +31,17 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> findById(@PathVariable String id) {
-        Optional<Order> order = orderService.findById(id);
-        if (!order.isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(order.get());
+        return ResponseEntity.ok(orderService.findById(id).get());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Order> update(@PathVariable String id, @Valid @RequestBody Order order) {
-        if (!orderService.findById(id).isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(orderService.save(order));
+        return ResponseEntity.ok(orderService.update(id, order));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id) {
-        if (!orderService.findById(id).isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
-
         orderService.deleteById(id);
-
         return ResponseEntity.ok().build();
     }
 }

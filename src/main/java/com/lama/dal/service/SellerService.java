@@ -1,6 +1,7 @@
 package com.lama.dal.service;
 
 import com.lama.dal.entity.Seller;
+import com.lama.dal.error.EntityNotFoundException;
 import com.lama.dal.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,30 @@ public class SellerService {
     }
 
     public Optional<Seller> findById(String id) {
-        return sellerRepository.findById(id);
+        Optional<Seller> seller = sellerRepository.findById(id);
+        if (!seller.isPresent()) {
+            throw new EntityNotFoundException(Seller.class, "id", id);
+        }
+
+        return seller;
+    }
+
+    public Seller update(String id, Seller seller) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException(Seller.class, "id", id);
+        }
+        return sellerRepository.save(seller);
     }
 
     public Seller save(Seller seller) {
-        return (Seller) sellerRepository.save(seller);
+        return sellerRepository.save(seller);
     }
 
     public void deleteById(String id) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException(Seller.class, "id", id);
+        }
+
         sellerRepository.deleteById(id);
     }
 }

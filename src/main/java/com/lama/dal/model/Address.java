@@ -1,6 +1,5 @@
 package com.lama.dal.model;
 
-import com.lama.dal.entity.Country;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -10,14 +9,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class Contact {
-
-    @NotNull(message = "Phone Number is mandatory")
-    private int phoneNumber;
-
-    @DBRef
+public class Address {
     @NotNull(message = "Address must have country")
-    private Country country;
+    private String country;
 
     @NotBlank(message = "First Line of Address is mandatory")
     private String addressFirst;
