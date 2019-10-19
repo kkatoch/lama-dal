@@ -5,7 +5,6 @@ import com.lama.dal.entity.Seller;
 import com.lama.dal.error.EntityNotFoundException;
 import com.lama.dal.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
