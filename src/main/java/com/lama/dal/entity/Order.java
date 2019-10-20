@@ -1,6 +1,7 @@
 package com.lama.dal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lama.dal.model.OrderItem;
 import com.lama.dal.types.OrderStatus;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.Set;
 
 @Data
 @Document("Order")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Order {
     @Id
     private String id;

@@ -20,6 +20,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public boolean existsById(String id) {
+        return orderRepository.existsById(id);
+    }
+
     public Optional<Order> findById(String id) {
         Optional<Order> order = orderRepository.findById(id);
         if (!order.isPresent()) {
@@ -30,9 +34,10 @@ public class OrderService {
     }
 
     public Order update(String id, Order order) {
-        if (!findById(id).isPresent()) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException(Order.class, "id", id);
         }
+        order.setId(id);
         return orderRepository.save(order);
     }
 
@@ -41,7 +46,7 @@ public class OrderService {
     }
 
     public void deleteById(String id) {
-        if (!findById(id).isPresent()) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException(Order.class, "id", id);
         }
 

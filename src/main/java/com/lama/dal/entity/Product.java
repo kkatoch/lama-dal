@@ -1,6 +1,7 @@
 package com.lama.dal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lama.dal.model.Image;
 import com.lama.dal.model.Tag;
 import com.lama.dal.types.ArtCategory;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @Data
 @Document("Product")
 @CompoundIndex(name = "product_seller", def = "{'name' : 1, 'seller': 1}", unique = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product {
     @Id
     private String id;

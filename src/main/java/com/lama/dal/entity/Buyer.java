@@ -1,6 +1,7 @@
 package com.lama.dal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lama.dal.model.Address;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +17,7 @@ import java.time.Instant;
 
 @Data
 @Document("Buyer")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Buyer {
     @Id
     private String id;

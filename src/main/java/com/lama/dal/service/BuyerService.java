@@ -22,6 +22,10 @@ public class BuyerService {
         return buyerRepository.findAll();
     }
 
+    public boolean existsById(String id) {
+        return buyerRepository.existsById(id);
+    }
+
     public Optional<Buyer> findById(String id) {
         Optional<Buyer> buyer = buyerRepository.findById(id);
         if (!buyer.isPresent()) {
@@ -32,9 +36,10 @@ public class BuyerService {
     }
 
     public Buyer update(String id, Buyer buyer) {
-        if (!findById(id).isPresent()) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException(Buyer.class, "id", id);
         }
+        buyer.setId(id);
         return buyerRepository.save(buyer);
     }
 
@@ -43,7 +48,7 @@ public class BuyerService {
     }
 
     public void deleteById(String id) {
-        if (!findById(id).isPresent()) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException(Buyer.class, "id", id);
         }
 

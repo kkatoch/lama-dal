@@ -1,6 +1,7 @@
 package com.lama.dal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lama.dal.model.Award;
 import com.lama.dal.model.Address;
 import com.lama.dal.model.Event;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 @Data
 @Document("Seller")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Seller {
     @Id
     private String id;

@@ -22,6 +22,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public boolean existsById(String id) {
+        return productRepository.existsById(id);
+    }
+
     public Optional<Product> findById(String id) {
         Optional<Product> product = productRepository.findById(id);
         if (!product.isPresent()) {
@@ -32,9 +36,10 @@ public class ProductService {
     }
 
     public Product update(String id, Product product) {
-        if (!findById(id).isPresent()) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException(Product.class, "id", id);
         }
+        product.setId(id);
         return productRepository.save(product);
     }
 
@@ -44,14 +49,14 @@ public class ProductService {
             throw new EntityNotFoundException(Seller.class, "id", "Empty");
 
         }
-        if (!sellerService.findById(seller.getId()).isPresent()) {
+        if (!sellerService.existsById(seller.getId())) {
             throw new EntityNotFoundException(Seller.class, "id", seller.getId());
         }
         return productRepository.save(product);
     }
 
     public void deleteById(String id) {
-        if (!findById(id).isPresent()) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException(Product.class, "id", id);
         }
 
