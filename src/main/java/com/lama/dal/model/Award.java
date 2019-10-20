@@ -2,12 +2,13 @@ package com.lama.dal.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-@Getter@Setter
+
+@Getter
+@Setter
 public class Award {
 
     @NotBlank(message = "Award Name is mandatory")

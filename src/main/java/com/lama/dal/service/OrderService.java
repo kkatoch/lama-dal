@@ -1,7 +1,10 @@
 package com.lama.dal.service;
 
+import com.lama.dal.entity.Buyer;
 import com.lama.dal.entity.Order;
+import com.lama.dal.entity.Product;
 import com.lama.dal.error.EntityNotFoundException;
+import com.lama.dal.model.OrderItem;
 import com.lama.dal.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import java.util.Optional;
 public class OrderService {
     @Autowired
     private final OrderRepository orderRepository;
+    private final BuyerService buyerService;
+    private final ProductService productService;
 
     public List<Order> findAll() {
         return orderRepository.findAll();
@@ -34,6 +39,7 @@ public class OrderService {
     }
 
     public Order update(String id, Order order) {
+        validateOrderItems(order);
         if (!existsById(id)) {
             throw new EntityNotFoundException(Order.class, "id", id);
         }
@@ -42,7 +48,18 @@ public class OrderService {
     }
 
     public Order save(Order order) {
-        return orderRepository.save(order);
+        validateOrderItems(order);
+
+        Buyer buyer = order.getBuyer();
+        if (buyer == null || buyer.getId().isEmpty()) {
+            throw new EntityNotFoundException(Buyer.class, "id", "Empty");
+        }
+        if (!buyerService.existsById(buyer.getId())) {
+            throw new EntityNotFoundException(Buyer.class, "id", buyer.getId());
+        }
+        Order savedOrder = orderRepository.save(order);
+        changeProductStatusOnOrder(order, savedOrder);
+        return savedOrder;
     }
 
     public void deleteById(String id) {
@@ -51,5 +68,31 @@ public class OrderService {
         }
 
         orderRepository.deleteById(id);
+    }
+
+    private void validateOrderItems(Order order) {
+        if (order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
+            throw new EntityNotFoundException(OrderItem.class, "id", "Empty");
+        }
+
+        order.getOrderItems().parallelStream().forEach(orderItem -> {
+            Optional<Product> product = productService.findById(orderItem.getProduct().getId());
+            if (product == null || product.get().getId().isEmpty() ||
+                    !product.get().isListed()) {
+                throw new EntityNotFoundException(OrderItem.class, "id", "Not available to order");
+            }
+        });
+    }
+
+    private void changeProductStatusOnOrder(Order order, Order savedOrder) {
+        if (savedOrder != null && !savedOrder.getId().isEmpty() && existsById(savedOrder.getId())) {
+            order.getOrderItems().parallelStream().forEach(orderItem -> {
+                Optional<Product> product = productService.findById(orderItem.getProduct().getId());
+                if (product != null && !product.get().getId().isEmpty()) {
+                    product.get().setListed(false);
+                    productService.save(product.get());
+                }
+            });
+        }
     }
 }

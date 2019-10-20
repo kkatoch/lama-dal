@@ -1,6 +1,5 @@
 package com.lama.dal.error;
 
-import com.mongodb.DuplicateKeyException;
 import com.mongodb.MongoWriteException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -118,10 +117,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
                                                                   WebRequest request) {
-        if (ex.getCause() instanceof  MongoWriteException) {
+        if (ex.getCause() instanceof MongoWriteException) {
             return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Duplicate key error", ex.getCause()));
         }
-        if (ex.getCause() instanceof  ConstraintViolationException) {
+        if (ex.getCause() instanceof ConstraintViolationException) {
             return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
         }
         return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));

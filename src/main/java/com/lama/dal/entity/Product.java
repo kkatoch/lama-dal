@@ -13,7 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,7 +21,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @Document("Product")
@@ -79,6 +77,9 @@ public class Product {
     private boolean isRent;
     @NotNull(message = "Is Sell is mandatory")
     private boolean isSell;
+
+    @NotNull(message = "Is Listed is mandatory")
+    private boolean isListed = true;
 
     @NotNull(message = "Product must have a Currency")
     private String currency;

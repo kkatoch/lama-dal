@@ -7,7 +7,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotNull;
 
-@Getter@Setter
+@Getter
+@Setter
 public class OrderItem {
     @NotNull(message = "Order item must have a Product ID")
     @DBRef

@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @EnableMongoAuditing
 @SpringBootApplication
-public class DalApplication  extends SpringBootServletInitializer {
-	public static void main(String[] args) {
-		SpringApplication.run(DalApplication.class, args);
-	}
+public class DalApplication extends SpringBootServletInitializer {
+    public static void main(String[] args) {
+        SpringApplication.run(DalApplication.class, args);
+    }
 }

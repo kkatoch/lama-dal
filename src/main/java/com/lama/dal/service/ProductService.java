@@ -45,7 +45,7 @@ public class ProductService {
 
     public Product save(Product product) {
         Seller seller = product.getSeller();
-        if(seller == null || seller.getId().isEmpty()) {
+        if (seller == null || seller.getId().isEmpty()) {
             throw new EntityNotFoundException(Seller.class, "id", "Empty");
 
         }

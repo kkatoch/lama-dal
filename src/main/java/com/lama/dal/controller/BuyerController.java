@@ -1,7 +1,6 @@
 package com.lama.dal.controller;
 
 import com.lama.dal.entity.Buyer;
-import com.lama.dal.error.EntityNotFoundException;
 import com.lama.dal.service.BuyerService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/buyers")

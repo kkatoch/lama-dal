@@ -7,7 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Getter@Setter
+@Getter
+@Setter
 public class Event {
 
     @NotBlank(message = "Event Name is mandatory")

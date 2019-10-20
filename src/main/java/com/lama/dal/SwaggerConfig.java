@@ -21,6 +21,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.regex("/.*"))
                 .build().apiInfo(apiEndPointsInfo());
     }
+
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("LAMA ART DAL REST API")
                 .version("1.0.0")
