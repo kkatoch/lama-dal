@@ -12,6 +12,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -88,6 +89,11 @@ public class Product {
     private Seller seller;
 
     private Set<Image> images;
+
+    @Transient
+    public BigDecimal getRentalPrice() {
+        return price.multiply(new BigDecimal(0.06));
+    }
 
     @JsonIgnore
     @CreatedDate

@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -59,6 +60,10 @@ public class Seller {
 
     private boolean isListed = true;
 
+    @Transient
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
     @JsonIgnore
     @CreatedDate
     private Instant createdAt;
