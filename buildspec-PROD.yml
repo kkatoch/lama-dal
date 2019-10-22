@@ -11,7 +11,7 @@ phases:
       - echo pre_build
   build:
     commands:
-      - mvn package -Dactive.profile=uat
+      - mvn package -Pprod
       - echo build
   post_build:
     commands:

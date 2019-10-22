@@ -14,29 +14,7 @@
 	<packaging>war</packaging>
 	<name>DAL</name>
 	<description>Lama Art Ltd Data Access API</description>
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<activatedProperties>dev</activatedProperties>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<id>uat</id>
-			<properties>
-				<activatedProperties>uat</activatedProperties>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<activatedProperties>prod</activatedProperties>
-			</properties>
-		</profile>
-	</profiles>
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -98,6 +76,31 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<profiles>
+						<profile>
+							<id>dev</id>
+							<properties>
+								<activatedProperties>dev</activatedProperties>
+							</properties>
+							<activation>
+								<activeByDefault>true</activeByDefault>
+							</activation>
+						</profile>
+						<profile>
+							<id>uat</id>
+							<properties>
+								<activatedProperties>uat</activatedProperties>
+							</properties>
+						</profile>
+						<profile>
+							<id>prod</id>
+							<properties>
+								<activatedProperties>prod</activatedProperties>
+							</properties>
+						</profile>
+					</profiles>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
