@@ -11,4 +11,5 @@ phases:
 artifacts:
   files:
     - lama-dal.war
+    - .ebextensions/**/*
   base-directory: 'target/lama-dal.war'
