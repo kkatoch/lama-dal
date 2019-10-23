@@ -6,7 +6,7 @@ phases:
       java: corretto11
   post_build:
     commands:
-      - mvn package
+      - mvn package  -P uat
       - mv target/lama-dal.war lama-dal.war
 artifacts:
   files:
