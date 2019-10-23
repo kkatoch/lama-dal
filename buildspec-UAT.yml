@@ -11,11 +11,13 @@ phases:
       - echo pre_build
   build:
     commands:
-      - mvn clean install -P uat
-      - echo build
+      - mvn package -P uat
+      - mv target/lama-dal.war lama-dal.war
   post_build:
     commands:
       - echo post_build
 artifacts:
   files:
-    - target/lama-dal.war
+    - lama-dal.war
+    - .ebextensions/**/*
+  base-directory: 'target/lama-dal.war'
