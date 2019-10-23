@@ -3,21 +3,12 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: openjdk8
-    commands:
-      - echo install
-  pre_build:
-    commands:
-      - echo pre_build
-  build:
-    commands:
-      - mvn package -P uat
-      - mv target/lama-dal.war lama-dal.war
+      java: corretto11
   post_build:
     commands:
-      - echo post_build
+      - mvn package
+      - mv target/lama-dal.war lama-dal.war
 artifacts:
   files:
     - lama-dal.war
-    - .ebextensions/**/*
   base-directory: 'target/lama-dal.war'
