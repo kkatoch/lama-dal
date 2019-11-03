@@ -89,17 +89,15 @@ public class Product {
     private Seller seller;
 
     private Set<Image> images;
+    @JsonIgnore
+    @CreatedDate
+    private Instant createdAt;
+    @JsonIgnore
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @Transient
     public BigDecimal getRentalPrice() {
         return price.multiply(new BigDecimal(0.06));
     }
-
-    @JsonIgnore
-    @CreatedDate
-    private Instant createdAt;
-
-    @JsonIgnore
-    @LastModifiedDate
-    private Instant updatedAt;
 }
