@@ -59,16 +59,15 @@ public class Seller {
     private String phoneNumber;
 
     private boolean isListed = true;
+    @JsonIgnore
+    @CreatedDate
+    private Instant createdAt;
+    @JsonIgnore
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @Transient
     public String getFullName() {
         return String.format("%s %s", firstName, lastName);
     }
-    @JsonIgnore
-    @CreatedDate
-    private Instant createdAt;
-
-    @JsonIgnore
-    @LastModifiedDate
-    private Instant updatedAt;
 }
